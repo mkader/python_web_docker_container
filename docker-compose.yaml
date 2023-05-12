@@ -18,8 +18,8 @@ services:
   app:
     build:
       context: ./src
-    command: sh -c "chmod +x /code/entrypoint-dev.sh"  
-    entrypoint: /code/entrypoint-dev.sh
+    entrypoint: sh /code/entrypoint-dev.sh
+    command: sh -c "chmod +x /code/entrypoint-dev.sh && /code/entrypoint-dev.sh"
     env_file:
       - .env
     environment:

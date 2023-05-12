@@ -23,7 +23,6 @@ USER appuser
 # Expose the default Flask port
 EXPOSE 50505
 
-RUN chmod +x /code/entrypoint-dev.sh
-RUN chmod +x /code/entrypoint.sh
+RUN chmod +x /code/entrypoint.sh /code/entrypoint-dev.sh
 
 ENTRYPOINT ["/code/entrypoint.sh"]

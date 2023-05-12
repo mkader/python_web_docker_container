@@ -260,7 +260,12 @@ Docker compose
         
         Error: ERROR: for app  Cannot start service app: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "/code/entrypoint-dev.sh": permission denied: unknown
 
-        add dockercompose : command: sh -c "chmod +x /code/entrypoint-dev.sh"    
+        add dockercompose : 
+            entrypoint: sh /code/entrypoint-dev.sh
+            command: sh -c "chmod +x /code/entrypoint-dev.sh && /code/entrypoint-dev.sh"
+   
+   Remove all: docker-compose down   
+
 
 Hosting containers with databases on Azure
     
@@ -281,14 +286,15 @@ Hosting containers with databases on Azure
         – Flexible Server	
 
     Containerized App with PostgreSQL access
-![alt img](diagram_azurecontainerapp_postgres.PNG)        
+![alt img](azurecontainerapp_postgres.png)        
 
     Deploying to ACA + PG with AZD using Azure
-        Install the Azure Developer CLI (already installed in Dev Container).
+        Create azure.yaml, add infr folder for bicep files
 
         Login to your Azure account: azd auth login
         
         Create resources and deploy the app: azd up
+            ? Please enter a new environment name: [? for help] 
 
     Clean up the resources, through portal or azd down.    
 
