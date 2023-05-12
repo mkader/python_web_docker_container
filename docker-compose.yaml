@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DBPASS:?database password not set}
+      POSTGRES_USER: ${DBUSER:?database user not set}
+      POSTGRES_DB: ${DBNAME:?database name not set}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DBUSER} -d ${DBNAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+  app:
+    build:
+      context: ./src
+    command: sh -c "chmod +x /code/entrypoint-dev.sh"  
+    entrypoint: /code/entrypoint-dev.sh
+    env_file:
+      - .env
+    environment:
+      DBHOST: db
+    ports:
+      - 50505:50505
+    volumes:
+      - ./src:/code
+    depends_on:
+      db:
+        condition: service_healthy
+volumes:
+ postgres-data:

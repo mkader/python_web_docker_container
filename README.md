@@ -218,6 +218,14 @@ Hosting containers on Azure
                 --env-file .env -p 50505:50505 \
                 flasksurveyscontainerapp            
 
+        Error: docker: Error response from daemon: failed to create shim task: OCI runtime create failed: 
+               runc create failed: unable to start container process: 
+               exec: "/code/entrypoint.sh": permission denied: unknown.
+
+            RUN chmod +x /code/entrypoint.sh       
+
+            re built: docker build -t flasksurveyscontainerapp .
+
 Docker compose
     Docker compose is a tool for multi-container Docker apps.
     docker-compose.yaml defines the services that make up your app:
@@ -248,7 +256,11 @@ Docker compose
             volumes:
                 postgres-data:            
 
-    Run multiple containers, Run the app and database containers: docker-compose up         
+    Run multiple containers, Run the app and database containers (remove web app container ): docker-compose up   
+        
+        Error: ERROR: for app  Cannot start service app: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "/code/entrypoint-dev.sh": permission denied: unknown
+
+        add dockercompose : command: sh -c "chmod +x /code/entrypoint-dev.sh"    
 
 Hosting containers with databases on Azure
     
